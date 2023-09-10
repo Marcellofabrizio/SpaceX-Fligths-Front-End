@@ -4,6 +4,9 @@ export interface ILaunchByRocketStat {
 }
 
 export interface ILaunchByYearStat {
-    count: number;
     year: number;
+    launches: {
+        rocket: string;
+        count: number;
+    }[];
 }
