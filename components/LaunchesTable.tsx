@@ -2,6 +2,7 @@ import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import { ILaunch } from "../shared/@types/Launch";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import yTLogo from "../public/youtube-logo-2431.svg";
 
 interface Props {
     data: ILaunch[];
@@ -45,6 +46,10 @@ const getLogo = (logoUrl) => {
     return null;
 };
 
+const getYTLogo = () => {
+    return <Image src={yTLogo} alt="Logo da YouTube" width={40} height={40} />;
+};
+
 const formatDate = (dateString) => {
     const date = new Date(dateString);
 
@@ -68,35 +73,40 @@ export default function LaunchesTable({ data }: Props) {
 
     return (
         <div className="relative overflow-x-auto shadow-lg rounded-lg p-3 bg-gray-light">
-            <table className="w-full text-xs md:text-md text-left text-gray-500 ">
+            <table className="w-full text-xs md:text-md text-left text-gray-500 border-separate border-spacing-y-2">
                 <thead className="text-gray-700">
                     <tr className="">
-                        <th scope="col" className="px-3 md:px-6 py-3">
+                        <th scope="col" className="px-3 md:px-6 py-2">
                             Vôo
                         </th>
                         <th
                             scope="col"
-                            className={`px-3 md:px-6 py-3 ${
+                            className={`px-3 md:px-6 py-2 ${
                                 isMobile ? "hidden" : ""
                             }`}
                         >
                             Logo
                         </th>
-                        <th scope="col" className="px-3 md:px-6 py-3">
+                        <th scope="col" className="px-3 md:px-6 py-2">
                             Missão
                         </th>
-                        <th scope="col" className="px-3 md:px-6 py-3">
-                            Data de lançamento
+                        <th scope="col" className="px-3 md:px-6 py-2">
+                            Lançamento
                         </th>
-                        <th scope="col" className="px-3 md:px-6 py-3">
+                        <th scope="col" className="px-3 md:px-6 py-2">
                             Foguete
                         </th>
-                        <th scope="col" className="px-3 md:px-6 py-3">
+                        <th
+                            scope="col"
+                            className={`px-3 md:px-6 py-2 ${
+                                isMobile ? "hidden" : ""
+                            }`}
+                        >
                             Resultado
                         </th>
                         <th
                             scope="col"
-                            className={`px-3 md:px-6 py-3 ${
+                            className={`px-3 md:px-6 py-2 ${
                                 isMobile ? "hidden" : ""
                             }`}
                         >
@@ -107,12 +117,18 @@ export default function LaunchesTable({ data }: Props) {
                 <tbody className="">
                     {data.map((launch) => (
                         <tr
-                            className="bg-white mb-10 border-4 border-gray-light rounded-lg"
+                            className={`bg-white rounded-lg border-l-4 pb-4 ${
+                                launch.success === true
+                                    ? "border-l-green"
+                                    : launch.success === false
+                                    ? "border-l-red"
+                                    : "border-l-white"
+                            }`}
                             key={launch._id}
                         >
                             <th
                                 scope="row"
-                                className="px-3 md:px-6 py-2 font-medium"
+                                className="px-3 md:px-6 font-medium "
                             >
                                 {launch.flightNumber}
                             </th>
@@ -130,9 +146,13 @@ export default function LaunchesTable({ data }: Props) {
                             <td className="px-3 md:px-6 py-2">
                                 {launch.rocket.name}
                             </td>
-                            <td className="px-3 md:px-6 py-2">
-                                <p className={getResultClass(launch.result)}>
-                                    {getResultLabel(launch.result)}
+                            <td
+                                className={`px-3 md:px-6 py-2 ${
+                                    isMobile ? "hidden" : ""
+                                }`}
+                            >
+                                <p className={getResultClass(launch.success)}>
+                                    {getResultLabel(launch.success)}
                                 </p>
                             </td>
                             <td
@@ -145,7 +165,7 @@ export default function LaunchesTable({ data }: Props) {
                                     target="_blank"
                                     type="button"
                                 >
-                                    YouTube
+                                    {getYTLogo()}
                                 </a>
                             </td>
                         </tr>

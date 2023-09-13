@@ -6,7 +6,7 @@ export interface ILaunch {
         logo: string;
         name: string;
         dateUtc: string;
-        result: boolean;
+        success: boolean;
         webcast: string;
         reused: boolean;
         createdAt: Date;
